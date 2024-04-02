@@ -1,6 +1,12 @@
-# Reads a file and applies all three frame shifts to
-# it for all possible proteins a DNA sequence can
-# code for. Programmed by Samuel Davenport
+"""Read proteins.
+
+Reads a file and applies all three frame shifts to
+it for all possible proteins a DNA sequence can
+code for.
+"""
+
+# Programmed by CoolCat467
+
 from __future__ import annotations
 
 from random import randint
@@ -42,6 +48,7 @@ def gen_random_proper_seq(
     g: float,
     c: float,
 ) -> Seq:
+    """Get random proper sequence."""
     if sum([a, t, g, c]) != 1:
         raise ArithmeticError(
             "Sum of perentages of A, T, G, and C is not equal to 100 percent!",
@@ -55,19 +62,22 @@ def gen_random_proper_seq(
     del a_copies, t_copies, g_copies, c_copies
     seq = []
     for _i in range(length):
-        idx = randint(0, len(unrand) - 1)
+        idx = randint(0, len(unrand) - 1)  # noqa: S311
         seq.append(unrand[idx])
         del unrand[idx]
     return Seq("".join(seq))
 
 
 class GenerateProteins(Thread):
+    """Generate Proteins in thread."""
+
     def __init__(
         self,
         times: int,
         atgc: list[float],
         sequence_size: int,
     ) -> None:
+        """Initialize self."""
         super().__init__()
         self.times = int(times)
         self.atgc = atgc
@@ -75,6 +85,7 @@ class GenerateProteins(Thread):
         self.start()
 
     def run(self) -> None:
+        """Run thread."""
         proteins = []
         for _i in range(self.times):
             seq = gen_random_proper_seq(self.sequence_size, *self.atgc)
@@ -86,6 +97,7 @@ class GenerateProteins(Thread):
 
 
 def run() -> None:
+    """Run protein thing."""
     print("Running...")
     gcrng = (20, 65, 5)
     threads = {}
