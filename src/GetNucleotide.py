@@ -1,6 +1,4 @@
-#!/usr/bin/env python3
-# Gets specific nucleotides in DNA from a file.
-# Programmed by Samuel Davenport
+"""Gets specific nucleotides in DNA from a file."""
 
 import os
 
@@ -14,12 +12,14 @@ __version__ = "0.0.1"
 
 
 def get_nucleotide(seq, position):
+    """Get nucleotide at position or None if out of range."""
     if position < len(seq):
         return seq[position - 1]
     return None
 
 
 def run():
+    """Run test."""
     file = "/share/Human/chr12.fa"
     file_type = "fasta"
 

@@ -1,7 +1,11 @@
-#!/usr/bin/env python3
-# Reads a file and applies all three frame shifts to
-# it for all possible proteins a DNA sequence can
-# code for. Programmed by Samuel Davenport
+"""Read proteins.
+
+Reads a file and applies all three frame shifts to
+it for all possible proteins a DNA sequence can
+code for.
+"""
+
+# Programmed by CoolCat467
 
 # from Bio.Seq import Seq
 # from Bio.Alphabet import IUPAC
@@ -45,6 +49,7 @@ def get_frames(dna_seq: Seq, n: int = 3) -> list[str]:
 
 
 def search_blast(protien: str, hit_count: int = 50) -> list[NCBIWWW]:
+    """Search blast for protiens."""
     with NCBIWWW.qblast(
         "blastp",
         "nr",
@@ -64,6 +69,7 @@ def search_blast(protien: str, hit_count: int = 50) -> list[NCBIWWW]:
 
 
 def run() -> None:
+    """Run test."""
     file = "/share/SARS/SARS-2020.fasta"
     ftype = "fasta"
     wfile = "output.txt"

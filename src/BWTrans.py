@@ -45,6 +45,7 @@ def gen_random_proper_seq(
     g: float,
     c: float,
 ) -> Seq:
+    """Generate random proper sequence."""
     if sum([a, t, g, c]) != 1:
         raise ArithmeticError(
             "Sum of perentages of A, T, G, and C is not equal to 100 percent!",
@@ -58,7 +59,7 @@ def gen_random_proper_seq(
     del a_copies, t_copies, g_copies, c_copies
     seq = []
     for _i in range(length):
-        idx = randint(0, len(unrand) - 1)
+        idx = randint(0, len(unrand) - 1)  # noqa: S311
         seq.append(unrand[idx])
         del unrand[idx]
     return Seq("".join(seq))
@@ -143,6 +144,7 @@ def recouple(lst: list[str], scan_length: int = 8, start: str = "") -> str:
 
 
 def get_nucleotide(seq: list[T], position: int) -> T | None:
+    """Get nucleotide at specific position or None if out of range (just use get lol)."""
     if position < len(seq):
         return seq[position - 1]
     return None

@@ -17,7 +17,10 @@ T = TypeVar("T")
 
 
 class SMAlgorythm:
+    """Smith Waterman Algorithm."""
+
     def __init__(self, sequence1: str, sequence2: str) -> None:
+        """Initialize with sequences."""
         self.seqA = str(sequence1).upper()
         self.seqB = str(sequence2).upper()
         self.n = len(self.seqA)
@@ -35,9 +38,12 @@ class SMAlgorythm:
         ]
 
     def __repr__(self) -> str:
-        return "SMAlgorythm()"
+        """Return representation of self."""
+        return f"{self.__class__.__name__}()"
 
     def get_allignment_dict(self) -> dict[tuple[str, str], int]:
+        """Return alignment dictionary."""
+
         def shift(x: list[str]) -> list[str]:
             return x[-1:] + x[:-1]
 
@@ -55,31 +61,33 @@ class SMAlgorythm:
         }
 
     def score(self) -> None:
+        """Calculate alignment score matrix."""
         a = self.seqA
         b = self.seqB
-        H = list(self.score_matrix)
+        h_mat = list(self.score_matrix)
         for k in range(self.n):
-            for l in range(self.m):
-                H[k][0] = 0
-                H[0][l] = 0
+            for l_value in range(self.m):
+                h_mat[k][0] = 0
+                h_mat[0][l_value] = 0
         # main
         for i in range(1, self.n):
             for j in range(1, self.m):
-                H[i][j] = max(
-                    H[i - 1][j - 1]
+                h_mat[i][j] = max(
+                    h_mat[i - 1][j - 1]
                     + self.sub_matrix[(a[i], b[j])],  # Aligning Score
-                    H[i - k][j]
+                    h_mat[i - k][j]
                     - k
                     * self.w1,  # Score if A is at the end of a gap of length k
-                    H[i][j - l]
+                    h_mat[i][j - l_value]
                     - self.w1,  # Score if B is at the end of a gap of length l
                     0,
                 )
-        self.score_matrix = H
+        self.score_matrix = h_mat
         self.k = k
-        self.l = l
+        self.l = l_value
 
     def calculate_start_index(self) -> None:
+        """Calculate start index position."""
         cmax = 0
         for i in range(self.n + 1):
             for ii in range(self.m + 1):
@@ -89,6 +97,7 @@ class SMAlgorythm:
         self.start_index = tuple(idx)
 
     def calculate_path(self) -> None:
+        """Calculate path."""
         i, j = tuple(self.start_index)
         path = [tuple(self.start_index)]
         while self.score_matrix[i][j] != 0:
@@ -120,6 +129,7 @@ class SMAlgorythm:
 
     @classmethod
     def path_to_string(cls, path: list[list[str]]) -> str:
+        """Convert path to string."""
         relative = []
         for i, ii in path:
             relative.append([i, "|" if i == ii else " ", ii])
@@ -132,6 +142,7 @@ class SMAlgorythm:
         return "".join(["".join(data[i]) + "\n" for i in range(3)])[:-1]
 
     def align(self, to_string: bool = False) -> Sequence[Sequence[str]]:
+        """Align class strings."""
         self.score()
         self.calculate_start_index()
         self.calculate_path()
