@@ -51,7 +51,7 @@ def gen_random_proper_seq(
     """Get random proper sequence."""
     if sum([a, t, g, c]) != 1:
         raise ArithmeticError(
-            "Sum of perentages of A, T, G, and C is not equal to 100 percent!",
+            "Sum of percentages of A, T, G, and C is not equal to 100 percent!",
         )
     a_copies = "A" * round(length * a)
     t_copies = "T" * round(length * t)
